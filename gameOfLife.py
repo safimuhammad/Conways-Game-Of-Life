@@ -4,8 +4,24 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 
 #test grid 
-# x = np.array([[0,0,255],[255,255,0],[0,255,0]])
-x = np.random.choice([0,255],4*4, p =[0.5,0.5]).reshape(4,4)
+ON = 255
+OFF = 0
+vals=[ON,OFF]
+def randomGrid(N):
+    randomArray = np.random.choice(vals,N*N, p=[0.2 ,0.8]).reshape(N,N)
+    return randomArray
 
-plt.imshow(x,  interpolation='nearest')
-plt.show() #0 == purple 255==yellow
+
+
+def addGlider(i,j,grid):
+    glider = np.array([[0,0,255],
+                       [255,0,255],
+                       [0,255,255]])
+    grid[i:i+3 , j:j+3 ] = glider
+
+    plt.imshow(grid, interpolation='nearest')
+    plt.show()
+
+
+grid = np.zeros(100*100).reshape(100,100)
+addGlider(1, 1, grid)
