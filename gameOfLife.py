@@ -25,3 +25,5 @@ def addGlider(i,j,grid):
 
 grid = np.zeros(100*100).reshape(100,100)
 addGlider(1, 1, grid)
+
+#implementing boundry rules 
