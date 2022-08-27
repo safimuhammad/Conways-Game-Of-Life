@@ -23,7 +23,29 @@ def addGlider(i,j,grid):
     plt.show()
 
 
-grid = np.zeros(100*100).reshape(100,100)
-addGlider(1, 1, grid)
+grid = np.zeros(150*150).reshape(150,150)
+# addGlider(1, 1, grid)
+
+
+
 
 #implementing boundry rules 
+def update (framNum, img ,grid, N):
+    newGrid = grid.copy()
+    for i in range(N):
+        for j in range(N):
+            total = int((grid[i,(j-1)%N]+ grid[i,(j+1)%N]+
+                         grid[(i-1)%N,j] + grid[(i+1)%N,j]+
+                         grid[(i-1)%N,(j-1)%N]+grid[(i-1)%N,(j-1)%N]+
+                         grid[(i+1)%N,(j-1)%N]+grid[(i+1)%N,(j-1)%N])/255)
+            #applying conway's rules
+            if grid[i,j] == ON:
+                if(total < 2) or (total>3):
+                    newGrid[i,j] = OFF
+            else:
+                if total  == 3 :
+                    newGrid[i,j] = ON
+    #update_data
+    img.set_data(newGrid)
+    grid[:] = newGrid[:]
+    return img,
