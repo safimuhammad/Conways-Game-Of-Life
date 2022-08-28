@@ -2,6 +2,7 @@
 import numpy as np 
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
+import sys,argparse
 
 #test grid 
 ON = 255
@@ -23,7 +24,7 @@ def addGlider(i,j,grid):
     plt.show()
 
 
-grid = np.zeros(150*150).reshape(150,150)
+# grid = np.zeros(N*N).reshape(N,150)
 # addGlider(1, 1, grid)
 
 
@@ -36,8 +37,8 @@ def update (framNum, img ,grid, N):
         for j in range(N):
             total = int((grid[i,(j-1)%N]+ grid[i,(j+1)%N]+
                          grid[(i-1)%N,j] + grid[(i+1)%N,j]+
-                         grid[(i-1)%N,(j-1)%N]+grid[(i-1)%N,(j-1)%N]+
-                         grid[(i+1)%N,(j-1)%N]+grid[(i+1)%N,(j-1)%N])/255)
+                         grid[(i-1)%N,(j-1)%N]+grid[(i-1)%N,(j+1)%N]+
+                         grid[(i+1)%N,(j-1)%N]+grid[(i+1)%N,(j+1)%N])/255)
             #applying conway's rules
             if grid[i,j] == ON:
                 if(total < 2) or (total>3):
@@ -49,3 +50,12 @@ def update (framNum, img ,grid, N):
     img.set_data(newGrid)
     grid[:] = newGrid[:]
     return img,
+
+def main():
+    parser = argparse.ArgumentParser(description="Runs Conway's Game of Life simulation.")
+    parser.add_argument('--grid-size' , dest='N' , required=False)
+    parser.add_argument('--mov-file' , dest='movfile' , required=False)
+    parser.add_argument('--interval' , dest='interval' , required=False)
+    parser.add_argument('--glider' , action='store_true' , required=False)
+    args = parser.parse_args()
+
