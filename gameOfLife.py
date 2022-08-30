@@ -22,9 +22,6 @@ def addGlider(i,j,grid):
     grid[i:i+3 , j:j+3 ] = glider
 
 
-
-# grid = np.zeros(N*N).reshape(N,150)
-# addGlider(1, 1, grid)
 def addBar(i,j,grid):
     bar = np.array([[0 , 255 , 0],
                     [0 , 255 , 0],
@@ -43,8 +40,31 @@ def combined (i1,i2,j1,j2, grid):
      grid[i1:i1+3 , j1:j1+3 ] = glider
      grid[i2:i2+3, j2:j2+3 ] = bar
 
+
+def addBlock(i,j,grid):
+    block = np.array([[0, 255, 255, 0],
+                      [0, 255 ,255,0],
+                      [0, 255, 255, 0 ],
+                      ])
+    grid[i:i+3 , j:j+4] = block
+
+
+def addGosperGun(i, j, grid):
+    gosperGun = np.array([   [0 , 0 , 0 , 0, 0, 0, 0, 0 ,0, 0 ,0, 0 , 0 ,0 ,0, 0 , 0 , 255, 0 , 0 , 0, 0],
+                          [0 , 0 , 0 , 0, 0, 0, 0, 0 ,0, 0 ,0, 0 , 0 ,0 ,0, 0 , 0 , 255, 0 , 0 , 0, 0],
+                          [0 , 0 , 0 ,0, 0, 255, 255, 0 ,255, 0 ,0, 0 , 0 ,0 ,0, 255 , 0 , 0, 0, 0 , 0 , 0],
+                          [0 , 0 , 0 ,0, 255, 0, 0, 0 ,0, 255 ,0,0, 0 , 255 ,255 ,0, 0 , 0 , 0, 255 , 255 , 0],
+                          [255 , 255 ,0, 255 , 0, 0, 0, 255 ,0, 255 ,255,0, 0 , 255 ,255 ,0, 0 , 0, 0, 255 , 255 , 0],
+                          [255 , 255 ,0, 255 , 0, 0, 0, 0 ,0, 255 ,0,0, 0 , 255 ,255 ,0, 0 , 0, 0, 0 , 0 , 0],
+                          [0 , 0 , 0 ,0, 255, 0, 0, 0 ,255, 0 ,0,0, 0 , 0 ,0 ,255, 0, 0, 0 , 0 , 0, 0],
+                          [0 , 0 , 0 ,0, 0, 255, 255, 0 ,0, 0 ,0,0, 0 , 0 ,0 ,0, 0 , 255, 0, 0 , 0 , 0],
+                          [0 , 0 , 0 ,0, 0, 0, 0, 0 ,0, 0 ,0,0, 0 , 0 ,0 ,0, 0 , 255, 0, 0 , 0 , 0]])
+    grid[i:i+9 , j:j+22] = gosperGun
+    
    
 
+
+    
 
 
 
@@ -78,6 +98,8 @@ def main():
     parser.add_argument('--gosper' , action='store_true', required=False)
     parser.add_argument('--addBar' , action='store_true', required=False)
     parser.add_argument('--combined' , action='store_true', required=False)
+    parser.add_argument('--addBlock' , action='store_true', required=False)
+   
     args = parser.parse_args()
 
     # set grid size
@@ -104,8 +126,12 @@ def main():
     elif args.combined:
          grid = np.zeros(N*N).reshape(N, N)
          combined(1,4, 1,4, grid)
-
-
+    elif args.addBlock:
+        grid = np.zeros(N*N).reshape(N, N)
+        addBlock(1,1,grid)
+    elif args.gosper:
+        grid= np.zeros(N*N).reshape(N,N)
+        addGosperGun(1,1, grid)
     else:
         #populate grid with random on/off 
         grid = randomGrid(N)
@@ -128,3 +154,14 @@ def main():
 # calling main
 if __name__ == '__main__':
     main()
+
+
+
+# [0 , 0 , 0 , 0, 0, 0, 0 ,0, 0 ,0, 0 , 0 ,0 ,0, 0 , 255 , 0, 0 , 0 , 0, 0],
+#                           [0 , 0 , 0 , 0, 0, 255, 255 ,0, 255 ,0, 0 , 0 ,0 ,0, 255 , 255 , 0, 0, 0 , 0 , 0],
+#                           [0 , 0 , 0 , 0, 255, 0, 0 ,0, 0 ,255,0, 0 , 0 ,255 ,255, 0 , 0 , 0, 255 , 255 , 0],
+#                           [255 , 255 , 255 , 0, 0, 0, 0 ,0, 0 ,255,0, 0 , 255 ,255 ,0, 0 , 0, 0, 255 , 255 , 0],
+#                           [255 , 255 , 255 , 0, 0, 0, 0 ,0, 0 ,255,255, 0 , 255 ,255 ,0, 0 , 0, 0, 0 , 0 , 0],
+#                           [0 , 0 , 0 , 255, 0, 0, 0 ,0, 0 ,255,0, 0 , 0 ,0 ,255, 0, 0, 0 , 0 , 0, 0],
+#                           [0 , 0 , 0 , 0, 255, 0, 0 ,0, 255 ,0,0, 0 , 0 ,0 ,0, 0 , 255, 0, 0 , 0 , 0],
+#                           [0 , 0 , 0 , 0, 0, 255, 255 ,0, 0 ,0,0, 0 , 0 ,0 ,0, 0 , 255, 0, 0 , 0 , 0]
